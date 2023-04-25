@@ -15,15 +15,16 @@ namespace ProjTurismoComMongo.Services
             _city = database.GetCollection<City>(settings.CityCollectionName);
         }
 
-        public List<City> GetCity()
+        public List<City> Get()
         {
             return _city.Find(c => true).ToList();
         }
 
-        public City GetCity(string id)
-        {
-            return _city.Find<City>(c => c.IdCity == id).FirstOrDefault();
-        }
+        public City Get(string id) =>   _city.Find(c => c.IdCity == id).FirstOrDefault();
+
+
+        //return _city.Find<City>(c => c.IdCity == id).FirstOrDefault();
+
 
         public City Create(City city)
         {

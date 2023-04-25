@@ -19,12 +19,12 @@ namespace ProjTurismoComMongo.Services
             _city = database.GetCollection<City>(settings.CityCollectionName);
         }
 
-        public List<Address> GetAddress()
+        public List<Address> Get()
         {
             return _address.Find(c => true).ToList();
         }
 
-        public Address GetAddress(string id)
+        public Address Get(string id)
         {
             return _address.Find<Address>(c => c.IdAddress == id).FirstOrDefault();
         }
@@ -32,7 +32,8 @@ namespace ProjTurismoComMongo.Services
         public Address Create(Address address)
         {
             var cidade = _city.Find(c => c.IdCity == address.City.IdCity).FirstOrDefault();
-            if (cidade == null) _city.InsertOne(address.City);
+            if (cidade == null) 
+                _city.InsertOne(address.City);
             else address.City = cidade;
 
             _address.InsertOne(address);

@@ -10,10 +10,14 @@ namespace ProjTurismoComMongo.Controllers
     public class ClientController : ControllerBase
     {
         private readonly ClientService _clientService;
+        private readonly AddressService _addressService;
+        private readonly CityService _cityService;
 
-        public ClientController(ClientService clientService)
+        public ClientController(ClientService clientService, AddressService addressService, CityService cityService)
         {
             _clientService = clientService; //injeção de dependência
+            _addressService = addressService;
+            _cityService = cityService;
         }
 
         [HttpGet]
@@ -35,6 +39,9 @@ namespace ProjTurismoComMongo.Controllers
         [HttpPost]
         public ActionResult<Client> Create(Client client)
         {
+            client.AddressClient = _addressService.Create(client.AddressClient);
+            client.AddressClient.City = _cityService.Create(client.AddressClient.City);
+            
             _clientService.Create(client);
 
             return Ok();

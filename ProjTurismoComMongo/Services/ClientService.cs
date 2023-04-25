@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using System.Net;
+using MongoDB.Driver;
 using ProjTurismoComMongo.Config;
 using ProjTurismoComMongo.Models;
 
@@ -31,13 +32,20 @@ namespace ProjTurismoComMongo.Services
 
         public Client Create(Client client)
         {
-            var endereco = _address.Find(e => e.IdAddress == client.AddressClient.IdAddress).FirstOrDefault();
-            if (endereco == null) _address.InsertOne(client.AddressClient);
-            else client.AddressClient = endereco;
 
             var cidade = _city.Find(c => c.IdCity == client.AddressClient.City.IdCity).FirstOrDefault();
-            if (cidade == null) _city.InsertOne(client.AddressClient.City);
-            else client.AddressClient.City = cidade;
+            if (cidade.Equals(""))
+                _city.InsertOne(client.AddressClient.City);
+            else
+                client.AddressClient.City = cidade;
+
+            var endereco = _address.Find(c => c.IdAddress == client.AddressClient.IdAddress).FirstOrDefault();
+            if (endereco == null)
+                _address.InsertOne(client.AddressClient);
+            else
+                client.AddressClient = endereco;
+
+            
 
             _client.InsertOne(client);
 

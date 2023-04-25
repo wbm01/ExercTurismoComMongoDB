@@ -17,12 +17,12 @@ namespace ProjTurismoComMongo.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<City>> GetCity() => _cityService.GetCity();
+        public ActionResult<List<City>> Get() => _cityService.Get();
 
         [HttpGet("{id:length(24)}", Name = "GetCity")]
-        public ActionResult<City> GetCity(string id)
+        public ActionResult<City> Get(string id)
         {
-            var city = _cityService.GetCity(id);
+            var city = _cityService.Get(id);
 
             if (city == null)
             {
@@ -41,7 +41,7 @@ namespace ProjTurismoComMongo.Controllers
         [HttpPut("{id:length(24)}")]
         public ActionResult Update(string id, City city)
         {
-            var c = _cityService.GetCity(id);
+            var c = _cityService.Get(id);
 
             if (c == null)
             {
@@ -59,7 +59,7 @@ namespace ProjTurismoComMongo.Controllers
             {
                 return NotFound();
             }
-            var client = _cityService.GetCity(id);
+            var client = _cityService.Get(id);
             if (client == null)
             {
                 return NotFound();
