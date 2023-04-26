@@ -39,8 +39,8 @@ namespace ProjTurismoComMongo.Controllers
         [HttpPost]
         public ActionResult<Client> Create(Client client)
         {
-            client.AddressClient = _addressService.Create(client.AddressClient);
             client.AddressClient.City = _cityService.Create(client.AddressClient.City);
+            client.AddressClient = _addressService.Create(client.AddressClient);
             
             _clientService.Create(client);
 

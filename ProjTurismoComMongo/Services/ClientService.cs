@@ -16,8 +16,8 @@ namespace ProjTurismoComMongo.Services
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
             _client = database.GetCollection<Client>(settings.ClientCollectionName);
-            _address = database.GetCollection<Address>(settings.AddressCollectionName);
-            _city = database.GetCollection<City>(settings.CityCollectionName);
+            //_address = database.GetCollection<Address>(settings.AddressCollectionName);
+            //_city = database.GetCollection<City>(settings.CityCollectionName);
         }
 
         public List<Client> Get()
@@ -32,20 +32,6 @@ namespace ProjTurismoComMongo.Services
 
         public Client Create(Client client)
         {
-
-            var cidade = _city.Find(c => c.IdCity == client.AddressClient.City.IdCity).FirstOrDefault();
-            if (cidade.Equals(""))
-                _city.InsertOne(client.AddressClient.City);
-            else
-                client.AddressClient.City = cidade;
-
-            var endereco = _address.Find(c => c.IdAddress == client.AddressClient.IdAddress).FirstOrDefault();
-            if (endereco == null)
-                _address.InsertOne(client.AddressClient);
-            else
-                client.AddressClient = endereco;
-
-            
 
             _client.InsertOne(client);
 

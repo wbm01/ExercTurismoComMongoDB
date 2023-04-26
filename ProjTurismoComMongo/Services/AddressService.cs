@@ -31,11 +31,19 @@ namespace ProjTurismoComMongo.Services
 
         public Address Create(Address address)
         {
-            var cidade = _city.Find(c => c.IdCity == address.City.IdCity).FirstOrDefault();
-            if (cidade == null) 
-                _city.InsertOne(address.City);
-            else address.City = cidade;
+            if (address.City.IdCity != "")
+            {
+                var cidade = _city.Find(c => c.IdCity == address.City.IdCity).FirstOrDefault();
+                
+                if (cidade == null)
+                address.City = new CityService(new ProjMDSettings()).Create(address.City);
 
+                else address.City = cidade;
+            }
+            else
+            {
+                address.City = new CityService(new ProjMDSettings()).Create(address.City);
+            }
             _address.InsertOne(address);
 
             return address;
